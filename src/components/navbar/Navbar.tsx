@@ -16,9 +16,6 @@ function Navbar() {
             </Link>
             <div className="hover:underline">Postagens</div>
             <div className="hover:underline">Temas</div>
-            <Link to="/cadastro" className="hover:underline">
-              Cadastrar usuario
-            </Link>
             <div className="hover:underline">Cadastrar tema</div>
             <div className="hover:underline">Perfil</div>
             <Link to="/login" className="hover:underline">
