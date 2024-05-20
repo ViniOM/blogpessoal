@@ -1,8 +1,10 @@
 import {
+  FaceMask,
   GithubLogo,
   InstagramLogo,
   LinkedinLogo,
 } from "@phosphor-icons/react";
+import { FacebookLogo } from "@phosphor-icons/react/dist/ssr";
 
 function Footer() {
   return (
