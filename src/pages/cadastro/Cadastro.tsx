@@ -1,12 +1,14 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import Usuario from "../../models/Usuarios";
-import "./Cadastro.css";
-import { cadastrarUsuario } from "../../services/Service";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { cadastrarUsuario } from "../../services/Service";
+import "./Cadastro.css";
+import Usuario from "../../models/Usuarios";
 
 function Cadastro() {
   let navigate = useNavigate();
+
   const [confirmaSenha, setConfirmaSenha] = useState<string>("");
+
   const [usuario, setUsuario] = useState<Usuario>({
     id: 0,
     nome: "",
@@ -15,14 +17,26 @@ function Cadastro() {
     foto: "",
   });
 
-  useEffect(() => {
-    if (usuario.id !== 0) {
-      retornar;
-    }
-  }, [usuario]);
+  const [usuarioResposta, setUsuarioResposta] = useState<Usuario>({
+    id: 0,
+    nome: "",
+    usuario: "",
+    senha: "",
+    foto: "",
+  });
 
-  function retornar() {
+  useEffect(() => {
+    if (usuarioResposta.id !== 0) {
+      back();
+    }
+  }, [usuarioResposta]);
+
+  function back() {
     navigate("/login");
+  }
+
+  function handleConfirmarSenha(e: ChangeEvent<HTMLInputElement>) {
+    setConfirmaSenha(e.target.value);
   }
 
   function atualizarEstado(e: ChangeEvent<HTMLInputElement>) {
@@ -32,29 +46,27 @@ function Cadastro() {
     });
   }
 
-  async function cadastrarNovoUsuario(e: FormEvent<HTMLFormElement>) {
+  async function cadastrarNovoUsuario(e: ChangeEvent<HTMLFormElement>) {
     e.preventDefault();
 
     if (confirmaSenha === usuario.senha && usuario.senha.length >= 8) {
       try {
-        await cadastrarUsuario(`/usuarios/cadastrar`, usuario, setUsuario);
-        alert("Usuario cadastrado com sucesso!");
-      } catch (erro) {
-        alert("Erro ao cadastrar o usuario");
+        await cadastrarUsuario(
+          `/usuarios/cadastrar`,
+          usuario,
+          setUsuarioResposta,
+        );
+        alert("Usuário cadastrado com sucesso");
+      } catch (error) {
+        alert("Erro ao cadastrar o Usuário");
       }
     } else {
-      alert("Os dados estão inconsistentes! Verifique os dados do usuario.");
-      setUsuario({ ...usuario, senha: "" });
-      setConfirmaSenha("");
+      alert("Dados inconsistentes. Verifique as informações de cadastro.");
+      setUsuario({ ...usuario, senha: "" }); // Reinicia o campo de Senha
+      setConfirmaSenha(""); // Reinicia o campo de Confirmar Senha
     }
   }
 
-  function handleConfirmaSenha(e: ChangeEvent<HTMLInputElement>) {
-    setConfirmaSenha(e.target.value);
-    console.log(confirmaSenha);
-  }
-
-  console.log(JSON.stringify(usuario));
   return (
     <>
       <div className="grid grid-cols-1 lg:grid-cols-2 h-screen place-items-center font-bold">
@@ -130,14 +142,14 @@ function Cadastro() {
               className="border-2 border-slate-700 rounded p-2"
               value={confirmaSenha}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                handleConfirmaSenha(e)
+                handleConfirmarSenha(e)
               }
             />
           </div>
           <div className="flex justify-around w-full gap-8">
             <button
               className="rounded text-white bg-red-400 hover:bg-red-700 w-1/2 py-2"
-              onClick={retornar}
+              onClick={back}
             >
               Cancelar
             </button>

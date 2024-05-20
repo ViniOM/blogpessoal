@@ -4,24 +4,29 @@ import Footer from "./components/footer/Footer";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./pages/login/Login";
 import Cadastro from "./pages/cadastro/Cadastro";
+import { AuthProvider } from "./context/AuthContext";
+import ListaTemas from "./components/listaTemas/ListaTemas";
 
 function App() {
   return (
     <>
-      <BrowserRouter>
-        <Navbar />
+      <AuthProvider>
+        <BrowserRouter>
+          <Navbar />
 
-        <div className="min-h-[78vh]">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/cadastro" element={<Cadastro />} />
-            <Route path="/home" element={<Home />} />
-          </Routes>
-        </div>
+          <div className="min-h-[78vh]">
+            <Routes>
+              <Route path="/" element={<Login />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/cadastro" element={<Cadastro />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/temas" element={<ListaTemas />} />
+            </Routes>
+          </div>
 
-        <Footer />
-      </BrowserRouter>
+          <Footer />
+        </BrowserRouter>
+      </AuthProvider>
     </>
   );
 }
