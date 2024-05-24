@@ -1,10 +1,11 @@
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Dna } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
+import Tema from "../../../models/Tema";
+import { buscar } from "../../../services/Service";
 import CardTemas from "../cardTemas/CardTemas";
-import { buscar } from "../../services/Service";
-import { AuthContext } from "../../context/AuthContext";
-import Tema from "../../models/Tema";
+import { toastAlerta } from "../../../utils/toastAlerta";
+import { AuthContext } from "../../../context/AuthContext";
 
 function ListaTemas() {
   const [temas, setTemas] = useState<Tema[]>([]);
@@ -21,7 +22,7 @@ function ListaTemas() {
       });
     } catch (error: any) {
       if (error.toString().includes("403")) {
-        alert("O token expirou, favor logar novamente");
+        toastAlerta("O token expirou, favor logar novamente", "info");
         handleLogout();
       }
     }
@@ -29,7 +30,7 @@ function ListaTemas() {
 
   useEffect(() => {
     if (token === "") {
-      alert("Você precisa estar logado");
+      toastAlerta("Você precisa estar logado", "info");
       navigate("/login");
     }
   }, [token]);
