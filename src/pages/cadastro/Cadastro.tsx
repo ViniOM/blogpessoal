@@ -16,6 +16,7 @@ function Cadastro() {
     usuario: "",
     senha: "",
     foto: "",
+    admin: false,
   });
 
   const [usuarioResposta, setUsuarioResposta] = useState<Usuario>({
@@ -24,6 +25,7 @@ function Cadastro() {
     usuario: "",
     senha: "",
     foto: "",
+    admin: false,
   });
 
   useEffect(() => {
@@ -57,6 +59,7 @@ function Cadastro() {
           usuario,
           setUsuarioResposta,
         );
+        console.log(usuario);
         toastAlerta("Usuário cadastrado com sucesso!", "sucesso");
       } catch (error) {
         toastAlerta("Erro no cadastro, tente novamente!", "erro");
@@ -66,8 +69,8 @@ function Cadastro() {
         "Dados inconsistentes. Verifique as informações de cadastro.",
         "erro",
       );
-      setUsuario({ ...usuario, senha: "" }); // Reinicia o campo de Senha
-      setConfirmaSenha(""); // Reinicia o campo de Confirmar Senha
+      setUsuario({ ...usuario, senha: "" });
+      setConfirmaSenha("");
     }
   }
 

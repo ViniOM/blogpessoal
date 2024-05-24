@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import loginLogo from "../../assets/login.jpg";
 import { toastAlerta } from "../../utils/toastAlerta";
 import { AuthContext } from "../../context/AuthContext";
+
 function Perfil() {
   let navigate = useNavigate();
-
   const { usuario } = useContext(AuthContext);
 
   useEffect(() => {
@@ -16,7 +16,7 @@ function Perfil() {
       );
       navigate("/login");
     }
-  }, [usuario.token]);
+  }, [usuario.token, navigate]);
 
   return (
     <div className="container mx-auto mt-4 rounded-2xl overflow-hidden">
@@ -31,8 +31,9 @@ function Perfil() {
         className="rounded-full w-56 mx-auto mt-[-8rem] border-8 border-white relative z-10"
       />
       <div className="relative mt-[-6rem] h-72 flex flex-col bg-sky-500 text-white text-2xl items-center justify-center">
-        <p>Nome: {usuario.nome} </p>
+        <p>Nome: {usuario.nome}</p>
         <p>Email: {usuario.usuario}</p>
+        <p>Admin: {usuario.admin ? "Sim" : "Não"}</p>
       </div>
     </div>
   );

@@ -33,6 +33,7 @@ function Login() {
 
   function login(e: ChangeEvent<HTMLFormElement>) {
     e.preventDefault();
+    console.log(usuario);
     handleLogin(usuarioLogin);
   }
 

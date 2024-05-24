@@ -1,7 +1,6 @@
-import { createContext, ReactNode, useState } from "react";
-
+import React, { createContext, ReactNode, useState } from "react";
 import UsuarioLogin from "../models/UsuarioLogin";
-import { login } from "../services/Service";
+import { login as loginService } from "../services/Service";
 import { toastAlerta } from "../utils/toastAlerta";
 
 interface AuthContextProps {
@@ -25,6 +24,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     senha: "",
     foto: "",
     token: "",
+    admin: false,
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -32,12 +32,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
   async function handleLogin(userLogin: UsuarioLogin) {
     setIsLoading(true);
     try {
-      await login(`/usuarios/logar`, userLogin, setUsuario);
-      toastAlerta(`Seja bem vindo(a)`, "sucesso");
-      setIsLoading(false);
+      await loginService(`/usuarios/logar`, userLogin, setUsuario);
+      toastAlerta(`Seja bem-vindo(a)`, "sucesso");
     } catch (error) {
       console.log(error);
-      toastAlerta("Dados Inconsitentes", "erro");
+      toastAlerta("Dados Inconsistentes", "erro");
+    } finally {
       setIsLoading(false);
     }
   }
@@ -50,6 +50,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       senha: "",
       foto: "",
       token: "",
+      admin: false,
     });
   }
 

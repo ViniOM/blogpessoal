@@ -1,11 +1,15 @@
 import { Link } from "react-router-dom";
 import Postagem from "../../../models/Postagem";
+import { AuthContext } from "../../../context/AuthContext";
+import { useContext } from "react";
 
 interface CardPostagemProps {
   post: Postagem;
 }
 
 function CardPostagem({ post }: CardPostagemProps) {
+  const { usuario, handleLogout } = useContext(AuthContext);
+
   return (
     <div className="border-slate-900 border flex flex-col rounded overflow-hidden justify-between">
       <div>
@@ -21,20 +25,22 @@ function CardPostagem({ post }: CardPostagemProps) {
           <p>Tema: {post.tema?.descricao}</p>
         </div>
       </div>
-      <div className="flex">
-        <Link
-          to={`/editarPostagem/${post.id}`}
-          className="w-full text-white bg-indigo-400 hover:bg-indigo-800 flex items-center justify-center py-2"
-        >
-          <button>Editar</button>
-        </Link>
-        <Link
-          to={`/deletarPostagem/${post.id}`}
-          className="text-white bg-red-400 hover:bg-red-700 w-full flex items-center justify-center"
-        >
-          <button>Deletar</button>
-        </Link>
-      </div>
+      {usuario.admin === true && (
+        <div className="flex">
+          <Link
+            to={`/editarPostagem/${post.id}`}
+            className="w-full text-white bg-indigo-400 hover:bg-indigo-800 flex items-center justify-center py-2"
+          >
+            <button>Editar</button>
+          </Link>
+          <Link
+            to={`/deletarPostagem/${post.id}`}
+            className="text-white bg-red-400 hover:bg-red-700 w-full flex items-center justify-center"
+          >
+            <button>Deletar</button>
+          </Link>
+        </div>
+      )}
     </div>
   );
 }
