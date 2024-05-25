@@ -9,12 +9,16 @@ import Footer from "./components/footer/Footer";
 import ListaTemas from "./components/temas/listaTemas/ListaTemas";
 import FormularioPostagem from "./components/postagens/formularioPostagem/FormularioPostagem";
 
-import Perfil from "./pages/perfil/Perfil";
 import FormularioTema from "./components/temas/FormularioTema/FormularioTema";
 import DeletarTema from "./components/temas/deletarTema/deletarTema";
 import ListaPostagens from "./components/postagens/listaPostagem/listaPostagem";
 import DeletarPostagem from "./components/postagens/deletarPostagem/DeletarPostagem";
-import { AuthProvider } from "./context/AuthContext";
+import { AuthContext, AuthProvider } from "./context/AuthContext";
+import Usuarios from "./components/usuarios/listaUsuarios/ListaUsuarios";
+import { useContext } from "react";
+import Perfil from "./pages/perfil/Perfil";
+import CardUsuario from "./components/usuarios/cardUsuarios.tsx/CardUsuario";
+import PerfilPorID from "./pages/perfil/porID/PerfilPorID";
 
 function App() {
   return (
@@ -46,7 +50,9 @@ function App() {
                 path="/deletarPostagem/:id"
                 element={<DeletarPostagem />}
               />
+              <Route path="/usuarios" element={<Usuarios />} />
               <Route path="/perfil" element={<Perfil />} />
+              <Route path="/perfil/:id" element={<PerfilPorID />} />
             </Routes>
           </div>
           <Footer />

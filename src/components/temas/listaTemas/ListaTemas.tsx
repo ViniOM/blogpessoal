@@ -38,6 +38,7 @@ function ListaTemas() {
   useEffect(() => {
     buscarTemas();
   }, [temas.length]);
+  
   return (
     <>
       {temas.length === 0 && (

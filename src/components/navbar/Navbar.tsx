@@ -10,7 +10,7 @@ function Navbar() {
 
   function logout() {
     handleLogout();
-    toastAlerta("Usuario desconectado com sucesso!", "sucesso");
+    toastAlerta("Usuário desconectado com sucesso!", "sucesso");
     navigate("/login");
   }
 
@@ -23,23 +23,47 @@ function Navbar() {
           <Link to="/home" className="text-2xl font-bold uppercase">
             Blog Pessoal
           </Link>
-
           <div className="flex gap-4">
-            <Link to="/postagens" className="hover:underline">
-              Postagens
-            </Link>
-            <Link to="/temas" className="hover:underline">
-              Temas
-            </Link>
-            <Link to="/cadastroTema" className="hover:underline">
-              Cadastrar tema
-            </Link>
-            <Link to="/perfil" className="hover:underline">
-              Perfil
-            </Link>
-            <Link to="" onClick={logout} className="hover:underline">
-              Sair
-            </Link>
+            {usuario.admin ? (
+              <>
+                <Link to="/usuarios" className="hover:underline">
+                  Usuários
+                </Link>
+                <Link to="/postagens" className="hover:underline">
+                  Postagens
+                </Link>
+                <Link to="/temas" className="hover:underline">
+                  Temas
+                </Link>
+                <Link to="/cadastroTema" className="hover:underline">
+                  Cadastrar tema
+                </Link>
+                <Link to={`/perfil`} className="hover:underline">
+                  Perfil
+                </Link>
+                <Link to="" onClick={logout} className="hover:underline">
+                  Sair
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link to="/usuarios" className="hover:underline">
+                  Usuários
+                </Link>
+                <Link to="/postagens" className="hover:underline">
+                  Postagens
+                </Link>
+                <Link to="/temas" className="hover:underline">
+                  Temas
+                </Link>
+                <Link to={`/perfil`} className="hover:underline">
+                  Perfil
+                </Link>
+                <Link to="" onClick={logout} className="hover:underline">
+                  Sair
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>

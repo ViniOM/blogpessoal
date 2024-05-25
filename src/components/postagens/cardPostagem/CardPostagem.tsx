@@ -9,7 +9,6 @@ interface CardPostagemProps {
 
 function CardPostagem({ post }: CardPostagemProps) {
   const { usuario, handleLogout } = useContext(AuthContext);
-
   return (
     <div className="border-slate-900 border flex flex-col rounded overflow-hidden justify-between">
       <div>
@@ -25,7 +24,7 @@ function CardPostagem({ post }: CardPostagemProps) {
           <p>Tema: {post.tema?.descricao}</p>
         </div>
       </div>
-      {usuario.admin === true && (
+      {usuario.admin === true ? (
         <div className="flex">
           <Link
             to={`/editarPostagem/${post.id}`}
@@ -40,6 +39,8 @@ function CardPostagem({ post }: CardPostagemProps) {
             <button>Deletar</button>
           </Link>
         </div>
+      ) : (
+        <div className="flex mb-1"></div>
       )}
     </div>
   );

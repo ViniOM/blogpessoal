@@ -1,12 +1,18 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import loginLogo from "../../assets/login.jpg";
 import { toastAlerta } from "../../utils/toastAlerta";
 import { AuthContext } from "../../context/AuthContext";
+import { buscarPostagemPorUsuario } from "../../services/Service";
+import Postagem from "../../models/Postagem";
+import { Dna } from "react-loader-spinner";
+import PostagemPerfil from "../../components/perfil/postagemPerfil";
 
 function Perfil() {
-  let navigate = useNavigate();
-  const { usuario } = useContext(AuthContext);
+  const { usuario, handleLogout } = useContext(AuthContext);
+  const [postagens, setPostagens] = useState<Postagem[]>([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (usuario.token === "") {
@@ -16,7 +22,42 @@ function Perfil() {
       );
       navigate("/login");
     }
-  }, [usuario.token, navigate]);
+  }, [usuario.token]);
+
+  useEffect(() => {
+    const buscarPostagemPorUser = async () => {
+      try {
+        await buscarPostagemPorUsuario(
+          `/postagem/usuario/${usuario.id}`,
+          setPostagens,
+          {
+            header: { Authorization: usuario.token },
+          },
+        );
+      } catch (error) {
+        if (error.toString().includes("403")) {
+          toastAlerta("O token expirou, favor logar novamente", "info");
+          handleLogout();
+        }
+      }
+      buscarPostagemPorUser();
+    };
+  }, [postagens.length]);
+
+  if (!buscarPostagemPorUsuario) {
+    return (
+      <div>
+        <Dna
+          visible={true}
+          height="200"
+          width="200"
+          ariaLabel="dna-loading"
+          wrapperStyle={{}}
+          wrapperClass="dna-wrapper mx-auto"
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto mt-4 rounded-2xl overflow-hidden">
@@ -35,6 +76,7 @@ function Perfil() {
         <p>Email: {usuario.usuario}</p>
         <p>Admin: {usuario.admin ? "Sim" : "Não"}</p>
       </div>
+      <PostagemPerfil />
     </div>
   );
 }
